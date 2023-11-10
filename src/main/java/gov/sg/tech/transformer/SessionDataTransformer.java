@@ -5,9 +5,10 @@ import gov.sg.tech.domain.SessionResponse;
 import gov.sg.tech.domain.UserResponse;
 import gov.sg.tech.entity.Session;
 import gov.sg.tech.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Component
@@ -17,20 +18,19 @@ public class SessionDataTransformer {
         return Session.builder()
                 .ended(false)
                 .name(createSessionRequest.getSessionName())
-                .sessionOwner(User.builder()
-                        .username(createSessionRequest.getSessionOwner())
-                        .build())
-                .sessionId(UUID.randomUUID())
+                .id((long) (new Random().nextInt(900000) + 100000))
                 .build();
     }
 
     public SessionResponse transformToSessionResponse(Session session) {
         return SessionResponse.builder()
-                .sessionId(String.valueOf(session.getSessionId()))
+                .sessionId(session.getId())
                 .sessionName(session.getName())
-                .createdAt(session.getCreatedAt().toLocalDateTime())
                 .ended(session.isEnded())
-                .restaurantChoice(session.getSelectedRestaurantChoice())
+                .restaurantChoice(session.getUsers()
+                        .stream()
+                        .filter(User::isWinner)
+                        .findFirst().map(User::getRestaurantChoice).orElse(null))
                 .users(session.getUsers()
                         .stream()
                         .map(this::transformToThinUserResponse)
@@ -40,9 +40,9 @@ public class SessionDataTransformer {
 
     private UserResponse transformToThinUserResponse(User user) {
         return UserResponse.builder()
-                .userId(user.getUserId().toString())
-                .username(user.getUsername())
+                .userId(user.getId())
+                .username(user.getName())
+                .restaurantChoice(user.getRestaurantChoice())
                 .build();
-
     }
 }

@@ -1,15 +1,17 @@
 package gov.sg.tech.domain;
 
-import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
-public class JoinSessionRequest {
+@AllArgsConstructor
+public class ErrorResponse {
 
-    @Nonnull
-    private Long userId;
+    private int status;
+
+    private String message;
 }

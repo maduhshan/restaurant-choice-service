@@ -1,39 +1,27 @@
 package gov.sg.tech.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @SuperBuilder
 @AllArgsConstructor
 @Entity
 @Table(name = "session")
+@NoArgsConstructor
 public class Session {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID sessionId;
+    private Long id;
 
     private String name;
 
     private boolean ended;
 
-    private Timestamp createdAt;
-
-    private Timestamp endedAt;
-
-    private Long timeOut;
-
-    @OneToMany(mappedBy ="session")
+    @OneToMany(mappedBy ="session", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<User> users;
-
-    private User sessionOwner;
-
-    private String selectedRestaurantChoice;
 }

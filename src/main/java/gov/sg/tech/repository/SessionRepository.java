@@ -2,10 +2,12 @@ package gov.sg.tech.repository;
 
 import gov.sg.tech.entity.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-public interface SessionRepository extends JpaRepository<Session, String> {
+@Repository
+public interface SessionRepository extends JpaRepository<Session, Long> {
 
-    Session findBySessionIdAndUserId(UUID sessionId, UUID userId);
+    Session findByIdAndUsers_Id(Long sessionId, Long userId);
 }

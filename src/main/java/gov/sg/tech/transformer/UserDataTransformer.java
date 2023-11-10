@@ -11,9 +11,16 @@ public class UserDataTransformer {
     @Valid
     public UserResponse transformToFullUserResponse(User user) {
         return UserResponse.builder()
-                .userId(user.getUserId().toString())
-                .username(user.getUsername())
+                .userId(user.getId())
+                .username(user.getName())
                 .restaurantChoice(user.getRestaurantChoice())
+                .build();
+    }
+
+    public User transformToUser(String username, boolean isOwner) {
+        return User.builder()
+                .isOwner(isOwner)
+                .name(username)
                 .build();
     }
 }

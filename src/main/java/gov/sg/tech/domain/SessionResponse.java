@@ -1,5 +1,6 @@
 package gov.sg.tech.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
@@ -10,14 +11,12 @@ import java.util.Set;
 
 @Data
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SessionResponse {
 
-    @Pattern(regexp="^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-            flags = Pattern.Flag.CASE_INSENSITIVE)
     @NotBlank
-    private String sessionId;
+    private Long sessionId;
 
-    @NotBlank
     private String sessionName;
 
     private LocalDateTime createdAt;

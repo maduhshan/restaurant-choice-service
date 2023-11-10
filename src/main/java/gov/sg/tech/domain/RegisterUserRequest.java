@@ -1,6 +1,6 @@
 package gov.sg.tech.domain;
 
-import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JoinSessionRequest {
+public class RegisterUserRequest {
 
-    @Nonnull
-    private Long userId;
+    @NotBlank
+    private String username;
 }

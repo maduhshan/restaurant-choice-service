@@ -1,28 +1,34 @@
 package gov.sg.tech.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 
-import java.util.UUID;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "session_user")
+public class User{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String username;
+    private String name;
 
     private String restaurantChoice;
 
     private boolean isWinner;
 
+    private boolean isOwner;
+
     @ManyToOne
-    @JoinColumn(name="session_id", nullable=false)
+    @JoinColumn(name="session_id", nullable=true)
     private Session session;
 }

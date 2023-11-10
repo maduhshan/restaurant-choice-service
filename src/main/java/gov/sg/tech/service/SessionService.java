@@ -4,13 +4,13 @@ import gov.sg.tech.domain.*;
 
 public interface SessionService {
 
-    SessionResponse getSessionById(String id);
+    SessionResponse getSessionById(Long id);
 
     SessionResponse createSession(CreateSessionRequest createSessionRequest);
 
-    SessionResponse joinSession(String id, JoinSessionRequest joinSessionRequest);
+    SessionResponse joinSession(Long id, JoinSessionRequest joinSessionRequest);
 
-    SessionResponse manageSession(String id, String userId, ManageSessionOperationType operationType, Long length);
+    SessionResponse submitRestaurantChoice(Long id, SubmitRestaurantChoiceRequest choiceRequest);
 
-    SessionResponse manageSession(String id, ManageSessionRequestMessage sessionRequestMessage);
+    SessionResponse manageSession(Long id, ManageSessionRequestMessage sessionRequestMessage);
 }
