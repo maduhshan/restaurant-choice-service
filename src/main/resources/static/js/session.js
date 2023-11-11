@@ -71,7 +71,7 @@ stompClient.onConnect = (frame) => {
 
 function setSessionName(responseBody) {
         if(!sessionName) {
-         $("#sessionId").html(responseBody.sessionName);
+         $("#sessionId").html(responseBody.sessionName + " - " + sessionId);
         }
         $("#restaurants").html("");
 }
@@ -112,7 +112,7 @@ $(function () {
     $( "#close" ).click(() => closeRoom());
     $( "#send" ).click(() => sendRestName());
     if(sessionName) {
-       $("#sessionId").html(sessionName);
+       $("#sessionId").html(sessionName + " - " + sessionId);
     }
 
 });
