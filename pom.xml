@@ -28,20 +28,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 
+<!--		Start of Dependencies for ActiveMQ message brokering-->
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.boot</groupId>-->
 <!--			<artifactId>spring-boot-starter-amqp</artifactId>-->
-<!--		</dependency>-->
-
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-aop</artifactId>-->
 <!--		</dependency>-->
 
 <!--		<dependency>-->
@@ -53,14 +48,17 @@
 <!--			<groupId>org.apache.activemq</groupId>-->
 <!--			<artifactId>activemq-broker</artifactId>-->
 <!--		</dependency>-->
+
 <!--		<dependency>-->
 <!--			<groupId>org.apache.activemq</groupId>-->
 <!--			<artifactId>activemq-client</artifactId>-->
 <!--		</dependency>-->
+
 <!--		<dependency>-->
 <!--			<groupId>org.apache.activemq</groupId>-->
 <!--			<artifactId>activemq-stomp</artifactId>-->
 <!--		</dependency>-->
+<!--		End of Dependencies for ActiveMQ message brokering-->
 
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -77,16 +75,34 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
-			<version>3.0.0</version> <!-- Use the latest version available -->
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version> <!-- Use a compatible version -->
+			<version>4.0.1</version>
+		</dependency>
+		<!-- Dependencies related to testing -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>3.12.4</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -109,18 +125,6 @@
 					</excludes>
 				</configuration>
 			</plugin>
-<!--			<plugin>-->
-<!--				<groupId>org.liquibase</groupId>-->
-<!--				<artifactId>liquibase-maven-plugin</artifactId>-->
-<!--				<version>${liquibase.version}</version>-->
-<!--				<configuration>-->
-<!--					<driver>org.h2.Driver</driver>-->
-<!--					<url>jdbc:h2:file:./target/h2db/db/carapp</url>-->
-<!--					<username>carapp</username>-->
-<!--					<password />-->
-<!--					<outputChangeLogFile>src/main/resources/liquibase-outputChangeLog.xml</outputChangeLogFile>-->
-<!--				</configuration>-->
-<!--			</plugin>-->
 		</plugins>
 	</build>
 

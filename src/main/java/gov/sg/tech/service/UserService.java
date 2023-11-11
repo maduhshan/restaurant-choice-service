@@ -1,9 +1,9 @@
 package gov.sg.tech.service;
 
-import gov.sg.tech.domain.RegisterUserRequest;
-import gov.sg.tech.domain.UserResponse;
+import gov.sg.tech.domain.dto.RegisterUserRequest;
+import gov.sg.tech.domain.pojo.UserData;
 
 public interface UserService {
 
-    UserResponse registerUser(RegisterUserRequest registerUserRequest);
+    UserData registerUser(RegisterUserRequest registerUserRequest);
 }

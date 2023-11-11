@@ -24,8 +24,6 @@ public class User{
 
     private String restaurantChoice;
 
-    private boolean isWinner;
-
     private boolean isOwner;
 
     @ManyToOne

@@ -1,17 +1,21 @@
-package gov.sg.tech.domain;
+package gov.sg.tech.domain.dto;
 
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class SubmitRestaurantChoiceRequest {
+@Builder
+@Data
+public class ManageSessionRequest {
 
     @Nonnull
     private Long userId;
 
     @NotBlank
-    private String restaurantChoiceName;
+    private String operationType;
 }

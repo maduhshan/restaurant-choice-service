@@ -1,4 +1,4 @@
-package gov.sg.tech.domain;
+package gov.sg.tech.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,7 @@
 package gov.sg.tech.exception;
 
-import gov.sg.tech.domain.ErrorResponse;
+import gov.sg.tech.domain.dto.ErrorResponse;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.annotation.SendToUser;
@@ -56,6 +57,30 @@ public class GlobalExceptionHandler {
                         .status(HttpStatus.BAD_REQUEST.value())
                         .message(e.getMessage())
                         .build(), HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @SendToUser("/topic/error")
+    public ResponseEntity<ErrorResponse> handleConstraintViolationError(ConstraintViolationException e) {
+        return new ResponseEntity<>(
+                ErrorResponse.builder()
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .message(e.getMessage())
+                        .build(), HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(UnsupportedOperationException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @SendToUser("/topic/error")
+    public ResponseEntity<ErrorResponse> handleOperationNotAllowedError(UnsupportedOperationException e) {
+        return new ResponseEntity<>(
+                ErrorResponse.builder()
+                        .status(HttpStatus.FORBIDDEN.value())
+                        .message(e.getMessage())
+                        .build(), HttpStatus.FORBIDDEN
         );
     }
 }

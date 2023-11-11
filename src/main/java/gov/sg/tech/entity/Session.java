@@ -24,4 +24,7 @@ public class Session {
 
     @OneToMany(mappedBy ="session", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<User> users;
+
+    @Column(name = "selectedRestaurant")
+    private String selectedRestaurant;
 }

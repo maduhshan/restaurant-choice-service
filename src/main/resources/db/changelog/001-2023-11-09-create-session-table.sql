@@ -2,5 +2,6 @@
 CREATE TABLE session (
     id BIGINT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    ended BOOLEAN
+    ended BOOLEAN,
+    selected_restaurant VARCHAR(255)
 );

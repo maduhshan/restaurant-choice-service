@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Optional;
 import java.util.UUID;
 
-
 public class LoggingInterceptor implements HandlerInterceptor {
 
     @Override

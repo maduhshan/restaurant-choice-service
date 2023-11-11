@@ -1,11 +1,11 @@
 package gov.sg.tech.service.impl;
 
-import gov.sg.tech.domain.RegisterUserRequest;
-import gov.sg.tech.domain.UserResponse;
+import gov.sg.tech.dao.transformer.UserDaoTransformer;
+import gov.sg.tech.domain.dto.RegisterUserRequest;
+import gov.sg.tech.domain.pojo.UserData;
 import gov.sg.tech.entity.User;
-import gov.sg.tech.repository.UserRepository;
+import gov.sg.tech.dao.repository.UserRepository;
 import gov.sg.tech.service.UserService;
-import gov.sg.tech.transformer.UserDataTransformer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,21 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final UserDataTransformer userDataTransformer;
+    private final UserDaoTransformer userDaoTransformer;
 
     @Transactional
     @Override
-    public UserResponse registerUser(RegisterUserRequest registerUserRequest) {
-        User user = userDataTransformer.transformToUser(registerUserRequest.getUsername(), false);
+    public UserData registerUser(RegisterUserRequest registerUserRequest) {
+        User user = userDaoTransformer.transformToUser(registerUserRequest.getUsername(), false);
         log.info("Registering user: {}", user);
-        return userDataTransformer.transformToFullUserResponse(userRepository.save(user));
+        return buildUserData(userRepository.save(user));
+    }
+
+    private UserData buildUserData(User user) {
+        return UserData.builder()
+                .userId(user.getId())
+                .username(user.getName())
+                .restaurantChoice(user.getRestaurantChoice())
+                .build();
     }
 }

@@ -1,16 +1,20 @@
 package gov.sg.tech.service;
 
-import gov.sg.tech.domain.*;
+import gov.sg.tech.domain.dto.CreateSessionRequest;
+import gov.sg.tech.domain.dto.JoinSessionRequest;
+import gov.sg.tech.domain.dto.ManageSessionRequest;
+import gov.sg.tech.domain.dto.SubmitRestaurantChoiceRequest;
+import gov.sg.tech.domain.pojo.SessionData;
 
 public interface SessionService {
 
-    SessionResponse getSessionById(Long id);
+    SessionData getSessionById(Long id);
 
-    SessionResponse createSession(CreateSessionRequest createSessionRequest);
+    SessionData createSession(CreateSessionRequest createSessionRequest);
 
-    SessionResponse joinSession(Long id, JoinSessionRequest joinSessionRequest);
+    SessionData joinSession(Long id, JoinSessionRequest joinSessionRequest);
 
-    SessionResponse submitRestaurantChoice(Long id, SubmitRestaurantChoiceRequest choiceRequest);
+    SessionData submitRestaurantChoice(Long id, SubmitRestaurantChoiceRequest choiceRequest);
 
-    SessionResponse manageSession(Long id, ManageSessionRequestMessage sessionRequestMessage);
+    SessionData manageSession(Long id, ManageSessionRequest sessionRequestMessage);
 }

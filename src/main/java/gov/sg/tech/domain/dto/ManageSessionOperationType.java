@@ -1,4 +1,4 @@
-package gov.sg.tech.domain;
+package gov.sg.tech.domain.dto;
 
 import gov.sg.tech.exception.BadRequestException;
 

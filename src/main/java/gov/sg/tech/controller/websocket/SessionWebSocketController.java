@@ -1,9 +1,13 @@
 package gov.sg.tech.controller.websocket;
 
 import gov.sg.tech.aspect.ControllerLogger;
-import gov.sg.tech.domain.*;
-import gov.sg.tech.service.UserService;
+import gov.sg.tech.domain.dto.JoinSessionRequest;
+import gov.sg.tech.domain.dto.ManageSessionRequest;
+import gov.sg.tech.domain.dto.SessionResponse;
+import gov.sg.tech.domain.dto.SubmitRestaurantChoiceRequest;
+import gov.sg.tech.domain.pojo.SessionData;
 import gov.sg.tech.service.SessionService;
+import gov.sg.tech.controller.transformer.SessionDataTransformer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -18,23 +22,15 @@ public class SessionWebSocketController {
 
     private final SessionService sessionService;
 
-    private final UserService userService;
-
-
-    @ControllerLogger
-    @MessageMapping("/sessions/createRoom")
-    @SendTo("/topic/sessions/manage")
-    public SessionResponse createRoom(@Payload @Valid CreateSessionRequest createSessionRequest) {
-        return sessionService.createSession(createSessionRequest);
-
-    }
+    private final SessionDataTransformer sessionDataTransformer;
 
     @ControllerLogger
     @MessageMapping("/sessions/{sessionId}/join")
     @SendTo("/topic/sessions/manage")
     public SessionResponse joinSession(@DestinationVariable Long sessionId,
                                        @Payload @Valid JoinSessionRequest joinSessionRequest) {
-        return sessionService.joinSession(sessionId, joinSessionRequest);
+        SessionData sessionData = sessionService.joinSession(sessionId, joinSessionRequest);
+        return sessionDataTransformer.transformToSessionResponse(sessionData);
 
     }
 
@@ -42,8 +38,9 @@ public class SessionWebSocketController {
     @MessageMapping("/sessions/{sessionId}/manage")
     @SendTo("/topic/sessions/manage")
     public SessionResponse manageSession(@DestinationVariable Long sessionId,
-                                  @Payload @Valid ManageSessionRequestMessage sessionRequestMessage) {
-        return sessionService.manageSession(sessionId, sessionRequestMessage);
+                                  @Payload @Valid ManageSessionRequest sessionRequestMessage) {
+        SessionData sessionData = sessionService.manageSession(sessionId, sessionRequestMessage);
+        return sessionDataTransformer.transformToSessionResponse(sessionData);
     }
 
     @ControllerLogger
@@ -51,9 +48,7 @@ public class SessionWebSocketController {
     @SendTo("/topic/sessions/manage")
     public SessionResponse submitRestaurantChoice(@DestinationVariable Long sessionId,
                                                @Payload @Valid SubmitRestaurantChoiceRequest choice) {
-        return sessionService.submitRestaurantChoice(sessionId, choice);
+        SessionData sessionData = sessionService.submitRestaurantChoice(sessionId, choice);
+        return sessionDataTransformer.transformToSessionResponse(sessionData);
     }
-
-
-
 }
