@@ -1,65 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Restaurant Picker</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Restaurant Choice Service</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="/main.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
-    <script src="/app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.session@1.0.0/jquery.session.min.js"></script>
+    <script type="module" src="/app.js"></script>
 </head>
 <body>
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
-    enabled. Please enable
-    Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     <div class="row">
-        <div class="col-md-6">
-            <form class="form-inline">
-                <h2>Session: <span id=sessionId></span > </h2>
-
-                <div class="form-group">
-                    <label for="name">What is your name?</label>
-                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
-                </div>
-                <div class="form-group">
-                    <label for="name">SessionID</label>
-                    <input type="text" id="joinSessionId" class="form-control" placeholder="Your name here...">
-                </div>
-                <div class="form-group">
-                    <label for="name">Session Name</label>
-                    <input type="text" id="sessionName" class="form-control" placeholder="Your name here...">
-                </div>
-                <div class="form-group">
-                    <label for="name">Restruant Choice</label>
-                    <input type="text" id="restName" class="form-control" placeholder="Your name here...">
-                </div>
-
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline">
-                <div class="form-group">
-                    <button id="create" class="btn btn-default" type="submit">Create Room</button>
-                    <button id="join" class="btn btn-default" type="submit">Join Room</button>
-                    <button id="send" class="btn btn-default" type="submit">Send</button>
-                    <button id="close" class="btn btn-default" type="submit">Close Room</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-12">
-            <table id="conversation" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Joined users and their choices </th>
-                </tr>
-                </thead>
-                <tbody id="restaurants">
-                </tbody>
-            </table>
-            <h2>Restraunt Picked: <span id=restPick></span > </h2>
+            <h2>Welcome to Restaurant Choice Service</h2>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <form class="form-inline">
+                        <div class="form-group col-md-12">
+                            <label for="name">What is your name?</label>
+                            <input type="text" id="name" class="form-control" placeholder="Your name here...">
+                         </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <form class="form-inline">
+                        <div class="form-group col-md-12">
+                            <label for="name">Session Name / ID</label>
+                            <input type="text" id="session" class="form-control"
+                                   placeholder="Session Name or Id here...">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <br/>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button id = "createRoomButton" class="btn btn-default">Create Room</button>
+                    <button id = "joinRoomButton" class="btn btn-default">Join Room</button>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>

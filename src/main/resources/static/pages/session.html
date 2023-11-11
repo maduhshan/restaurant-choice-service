@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Restaurant Picker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="/main.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.session@1.0.0/jquery.session.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <script type="module" src="../js/session.js"></script>
+</head>
+<body>
+<div id="main-content" class="container">
+<div class="row">
+    <div class="col-md-12 text-right">
+        <form class="form-inline">
+            <div class="form-group">
+                <button id="close" class="btn btn-default" type="submit">End Session</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-12 text-left">
+        <form class="form-inline">
+            <h2><span id=sessionId></span > </h2>
+
+        </form>
+    </div>
+    <div class="col-md-12 text-center">
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="restName">Your Choice of Restaurant</label>
+                <input type="text" id="restName" class="form-control" placeholder="Restaurant A...">
+                <button id="send" class="btn btn-default" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+    </br>
+    </br>
+<div class="row">
+    <div class="col-md-12">
+        <table id="conversation" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Joined users and their choices </th>
+            </tr>
+            </thead>
+            <tbody id="restaurants">
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+   <div class="col-md-12">
+   <h2>Restaurant Selected: <span id=restPick></span > </h2>
+   </div>
+</div>
+</div>
+</body>
