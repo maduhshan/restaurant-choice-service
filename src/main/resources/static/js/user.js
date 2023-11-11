@@ -1,8 +1,8 @@
  export async function createSessionRoom() {
-   const user = await makePostCall('http://localhost:8080/users', {username: $("#name").val()});
+   const user = await makePostCall('http://localhost:8080/restaurant-choice-service/users', {username: $("#name").val()});
 
    let userId = user.userId;
-   const session = await makePostCall('http://localhost:8080/sessions', {sessionName: $("#session").val(),
+   const session = await makePostCall('http://localhost:8080/restaurant-choice-service/sessions', {sessionName: $("#session").val(),
                                                                                 sessionOwnerId: userId});
   let sessionOwner = true;
   let sessionId = session.sessionId;
@@ -17,7 +17,7 @@
 }
 
  export async function joinSessionRoom() {
-   const user = await makePostCall('http://localhost:8080/users', {username: $("#name").val()});
+   const user = await makePostCall('http://localhost:8080/restaurant-choice-service/users', {username: $("#name").val()});
    let userId = user.userId;
   let sessionId = $("#session").val();
   $.session.set('sessionOwner', false);

@@ -6,9 +6,20 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+/**
+ * Transforms Objects to DAO layer compatible entities
+ *
+ * @author Madushan
+ */
 @Component
 public class SessionDaoTransformer {
 
+    /**
+     * Transforms to session entity
+     *
+     * @param createSessionRequest create session entity
+     * @return Transformed Session entity
+     */
     public Session transformToSessionEntity(CreateSessionRequest createSessionRequest) {
         return Session.builder()
                 .ended(false)

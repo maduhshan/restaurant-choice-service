@@ -25,6 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Service layer logics impl to serve session operations
+ *
+ * @author Madushan
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -36,12 +41,20 @@ public class SessionServiceImpl implements SessionService {
 
     private final SessionDaoTransformer sessionDaoTransformer;
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Transactional
     @Override
     public SessionData getSessionById(Long id) {
         return buildSessionData(getSessionBySessionId(id));
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Transactional
     @Override
     public SessionData createSession(CreateSessionRequest createSessionRequest) {
@@ -54,6 +67,10 @@ public class SessionServiceImpl implements SessionService {
         return buildSessionData(sessionRepository.save(session));
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Transactional
     @Override
     public SessionData joinSession(Long id, JoinSessionRequest joinSessionRequest) {
@@ -74,6 +91,10 @@ public class SessionServiceImpl implements SessionService {
         return buildSessionData(sessionRepository.saveAndFlush(session));
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Transactional
     @Override
     public SessionData submitRestaurantChoice(Long id, SubmitRestaurantChoiceRequest choiceRequest) {
@@ -90,23 +111,39 @@ public class SessionServiceImpl implements SessionService {
         return buildSessionData(session);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public SessionData manageSession(Long id, ManageSessionRequest sessionRequestMessage) {
         var opEnum = ManageSessionOperationType.findByName(sessionRequestMessage.getOperationType());
         Session session = findMatchingSession(id, sessionRequestMessage.getUserId());
-        validateManageSessionOperation(sessionRequestMessage, opEnum, session);
         if (opEnum.equals(ManageSessionOperationType.END)) {
+            validateManageSessionOperation(sessionRequestMessage.getUserId(), opEnum, session);
             String selectedRestaurant = getRandomSelectedRestaurant(session);
             session.setEnded(true);
             session.setSelectedRestaurant(selectedRestaurant);
             log.info("Selected restaurant choice: {}", selectedRestaurant);
+        } else {
+            log.error("Un-supported session operation given, {}", opEnum.getValue());
+            throw new UnsupportedOperationException("Un-supported session operation given. " +
+                    "Currently only supports ending a session");
         }
         return buildSessionData(sessionRepository.save(session));
     }
 
-    private void validateManageSessionOperation(ManageSessionRequest sessionRequestMessage,
-                                                ManageSessionOperationType opEnum, Session session) {
-        if (validateSessionOwner(session, sessionRequestMessage.getUserId())) { // guard condition
+    /**
+     * This method contains guard conditions that validates if the user is permission to end the session.
+     * Also, If the session is an active session. Only active sessions are allowed to be ended.
+     *
+     * @param userId Id of the requested user
+     * @param opEnum operation name (END,EXTEND etc..)
+     * @param session related session to the owner and given session id
+     */
+    private void validateManageSessionOperation(Long userId, ManageSessionOperationType opEnum,
+                                                Session session) {
+        if (validateSessionOwner(session, userId)) { // guard condition
             log.error("Ending is not allowed for the given user, session: {}", session.getId());
             throw new OperationNotAllowedException("Operation not allowed for given user");
         }
@@ -116,21 +153,47 @@ public class SessionServiceImpl implements SessionService {
         }
     }
 
+    /**
+     * Get user by given user id
+     *
+     * @param sessionOwnerId id of the session owning user
+     * @return User entity
+     */
     private User getUserById(Long sessionOwnerId) {
         return userRepository.findById(sessionOwnerId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
+    /**
+     * Get session by given session d
+     *
+     * @param id session id
+     * @return Session entity
+     */
     private Session getSessionBySessionId(Long id) {
         return sessionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Session not found"));
     }
 
+    /**
+     * Find the matching session for the given session id and requested uer
+     *
+     * @param id session id
+     * @param userId requested user id
+     * @return Session entity
+     */
     private Session findMatchingSession(Long id, Long userId) {
         return Optional.ofNullable(sessionRepository
                 .findByIdAndUsers_Id(id, userId))
                 .orElseThrow(() -> new ResourceNotFoundException("There's no matching session available for the User"));
     }
 
+    /**
+     * Validates if the requested user is the session owner
+     *
+     * @param session related session for both user and given session id
+     * @param userId requested user id
+     * @return returns if requested user is session owner or not
+     */
     private boolean validateSessionOwner(Session session, Long userId) {
         User sessionOwner = session.getUsers()
                 .stream()
@@ -140,6 +203,12 @@ public class SessionServiceImpl implements SessionService {
         return !sessionOwner.getId().equals(userId);
     }
 
+    /**
+     * Select a random restaurant choice from the submitted list in an active session
+     *
+     * @param session related session for both user and given session id
+     * @return Selected random restaurant choice
+     */
     private String getRandomSelectedRestaurant(Session session) {
         List<String> restaurantChoices = session.getUsers().stream()
                 .map(User::getRestaurantChoice)
@@ -150,6 +219,12 @@ public class SessionServiceImpl implements SessionService {
         return restaurantChoices.get(random);
     }
 
+    /**
+     * Builds Session Data Pojo
+     *
+     * @param session session
+     * @return Session Data Pojo
+     */
     private SessionData buildSessionData(Session session) {
         return SessionData.builder()
                 .sessionId(session.getId())
@@ -162,6 +237,12 @@ public class SessionServiceImpl implements SessionService {
                 .build();
     }
 
+    /**
+     * Builds User Data
+     *
+     * @param user user
+     * @return User Data
+     */
     private UserData buildUserData(User user) {
         return UserData.builder()
                 .userId(user.getId())

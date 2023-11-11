@@ -10,7 +10,7 @@ const sessionId = urlParams.get('sessionId');
 
 
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://localhost:8080/restaurantPicker'
+    brokerURL: 'ws://localhost:8080/restaurant-choice-service/restaurantPicker'
 });
 
 stompClient.onWebSocketError = (error) => {

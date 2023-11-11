@@ -7,6 +7,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
+/**
+ * Aspect to implement the Cross Cutting concern of auditing all incoming requests
+ * and out going responses in Controllers.
+ *
+ * @author Madushan
+ */
 @Slf4j
 @Aspect
 @Component

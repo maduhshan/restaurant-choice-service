@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * Global Exception handlers to generate API friendly responses based on exceptions
+ * thrown throughout out the application journey
+ *
+ * @author Madushan
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

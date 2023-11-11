@@ -1,114 +1,131 @@
-//package gov.sg.tech.controller.websocket;
-//
-//import gov.sg.tech.controller.transformer.SessionDataTransformer;
-//import gov.sg.tech.domain.dto.JoinSessionRequest;
-//import gov.sg.tech.domain.dto.SessionResponse;
-//import gov.sg.tech.domain.dto.UserResponse;
-//import gov.sg.tech.service.SessionService;
-//import gov.sg.tech.util.ObjectMapperSingleton;
-//import lombok.SneakyThrows;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Disabled;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.messaging.simp.stomp.StompFrameHandler;
-//import org.springframework.messaging.simp.stomp.StompHeaders;
-//import org.springframework.messaging.simp.stomp.StompSession;
-//import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-//import org.springframework.test.context.ActiveProfiles;
-//import org.springframework.test.context.junit.jupiter.SpringExtension;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-//import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-//import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-//import org.springframework.web.socket.messaging.WebSocketStompClient;
-//import org.springframework.web.socket.sockjs.client.SockJsClient;
-//import org.springframework.web.socket.sockjs.client.Transport;
-//import org.springframework.web.socket.sockjs.client.WebSocketTransport;
-//
-//import java.lang.reflect.Type;
-//import java.util.ArrayList;
-//import java.util.Collections;
-//import java.util.List;
-//import java.util.concurrent.CompletableFuture;
-//import java.util.concurrent.TimeUnit;
-//
-//import static org.junit.jupiter.api.Assertions.assertNotNull;
-//
-//@ActiveProfiles("test")
-//@ExtendWith(SpringExtension.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//public class SessionWebSocketControllerTest {
-//
-////    @Autowired
-////    private SessionService sessionService;
-////
-////    @Autowired
-////    private SessionDataTransformer sessionDataTransformer;
-//
-//    private int port;
-//
-//    private String url;
-//
-//    private CompletableFuture<SessionResponse> completableFuture;
-//
-//    @BeforeEach
-//    void setUp () {
-//        completableFuture = new CompletableFuture<>();
-//        port = 8080;
-//        url = "ws://localhost:" + port + "/restaurantPicker";
-//    }
-//
-//    @SneakyThrows
-//    @DisplayName("Test Join Session")
-//    @Test
-//    void testJoinSession() {
-//        WebSocketStompClient stompClient = new WebSocketStompClient(new SockJsClient(createTransportClient()));
-//
-//        StompSession stompSession = stompClient.connectAsync(url,
-//                new StompSessionHandlerAdapter() {}).get(1, TimeUnit.SECONDS);
-//
-//        stompSession.subscribe(String.format("/sessions/%s/join", 123), new CustomStompFrameHandler());
-//        stompSession.send("/topic/sessions/manage", getStubSessionResponse());
-//
-//        SessionResponse sessionResponse = completableFuture.get(10, TimeUnit.SECONDS);
-//
-//        assertNotNull(sessionResponse);
-//    }
-//
-//    private List<Transport> createTransportClient() {
-//        List<Transport> transports = new ArrayList<>();
-//        transports.add(new WebSocketTransport(new StandardWebSocketClient()));
-//
-//        return transports;
-//    }
-//
-//    private SessionResponse getStubSessionResponse() {
-//        return SessionResponse.builder()
-//                .sessionId(1234L)
-//                .sessionName("Monday Lunch")
-//                .users(Collections.singleton(UserResponse.builder()
-//                        .userId(4L)
-//                        .username("Jon Snow")
-//                        .build()))
-//                .build();
-//    }
-//
-//    private class CustomStompFrameHandler implements StompFrameHandler {
-//
-//        @Override
-//        public Type getPayloadType(StompHeaders headers) {
-//            return SessionResponse.class;
-//        }
-//
-//        @Override
-//        public void handleFrame(StompHeaders headers, Object payload) {
-//            completableFuture.complete((SessionResponse) payload);
-//        }
-//    }
-//}
+package gov.sg.tech.controller.websocket;
+
+import gov.sg.tech.controller.transformer.SessionDataTransformer;
+import gov.sg.tech.domain.dto.JoinSessionRequest;
+import gov.sg.tech.domain.dto.ManageSessionRequest;
+import gov.sg.tech.domain.dto.SessionResponse;
+import gov.sg.tech.domain.dto.SubmitRestaurantChoiceRequest;
+import gov.sg.tech.domain.dto.UserResponse;
+import gov.sg.tech.domain.pojo.SessionData;
+import gov.sg.tech.domain.pojo.UserData;
+import gov.sg.tech.service.SessionService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Collections;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class SessionWebSocketControllerTest {
+
+    @Mock
+    private SessionService sessionService;
+
+    @Mock
+    private SessionDataTransformer sessionDataTransformer;
+
+    @InjectMocks
+    private SessionWebSocketController webSocketController;
+
+    @Test
+    void testJoinSession() {
+        // given
+        final var stubJoinSessionReq = JoinSessionRequest.builder()
+                .userId(1L).build();
+        final var expected = getStubSessionResponse();
+        when(sessionService.joinSession(anyLong(), eq(stubJoinSessionReq))).thenReturn(getStubSessionData());
+        when(sessionDataTransformer.transformToSessionResponse(any(SessionData.class)))
+                .thenReturn(expected);
+
+        // when
+        final var actual = webSocketController.joinSession(1234L, stubJoinSessionReq);
+
+        // actual
+        assertAll("Validate join session response",
+                () -> assertNotNull(actual),
+                () -> assertEquals(expected, actual)
+        );
+        verify(sessionService, times(1)).joinSession(eq(1234L), any(JoinSessionRequest.class));
+        verify(sessionDataTransformer, times(1)).transformToSessionResponse(any(SessionData.class));
+    }
+
+    @Test
+    void testManageSession() {
+        // given
+        final var stubManageSessionReq = ManageSessionRequest.builder()
+                .operationType("end")
+                .userId(null).build();
+        final var expected = getStubSessionResponse();
+        when(sessionService.manageSession(anyLong(), eq(stubManageSessionReq))).thenReturn(getStubSessionData());
+        when(sessionDataTransformer.transformToSessionResponse(any(SessionData.class)))
+                .thenReturn(expected);
+        // when
+        final var actual = webSocketController.manageSession(1234L, stubManageSessionReq);
+
+        // actual
+        assertAll("Validate join session response",
+                () -> assertNotNull(actual),
+                () -> assertEquals(expected, actual)
+        );
+        verify(sessionService, times(1)).manageSession(eq(1234L), any(ManageSessionRequest.class));
+        verify(sessionDataTransformer, times(1)).transformToSessionResponse(any(SessionData.class));
+    }
+
+    @Test
+    void testSubmitRestaurantChoice() {
+        // given
+        final var stubManageSessionReq = SubmitRestaurantChoiceRequest.builder()
+                .restaurantChoiceName("KFC")
+                .userId(null).build();
+        final var expected = getStubSessionResponse();
+        when(sessionService.submitRestaurantChoice(anyLong(), eq(stubManageSessionReq)))
+                .thenReturn(getStubSessionData());
+        when(sessionDataTransformer.transformToSessionResponse(any(SessionData.class)))
+                .thenReturn(expected);
+        // when
+        final var actual = webSocketController.submitRestaurantChoice(1234L, stubManageSessionReq);
+
+        // actual
+        assertAll("Validate join session response",
+                () -> assertNotNull(actual),
+                () -> assertEquals(expected, actual)
+        );
+        verify(sessionService, times(1))
+                .submitRestaurantChoice(eq(1234L), any(SubmitRestaurantChoiceRequest.class));
+        verify(sessionDataTransformer, times(1)).transformToSessionResponse(any(SessionData.class));
+    }
+
+    private SessionResponse getStubSessionResponse() {
+        return SessionResponse.builder()
+                .sessionId(1234L)
+                .sessionName("Monday Lunch")
+                .users(Collections.singleton(UserResponse.builder()
+                        .userId(4L)
+                        .username("Jon Snow")
+                        .build()))
+                .build();
+    }
+
+    private SessionData getStubSessionData() {
+        return SessionData.builder()
+                .sessionId(1234L)
+                .sessionName("Monday Lunch")
+                .users(Collections.singleton(UserData.builder()
+                        .userId(4L)
+                        .username("Jon Snow")
+                        .build()))
+                .build();
+    }
+}

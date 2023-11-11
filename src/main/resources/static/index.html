@@ -4,10 +4,10 @@
     <title>Restaurant Choice Service</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="/main.css" rel="stylesheet">
+    <link href="/restaurant-choice-service/main.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery.session@1.0.0/jquery.session.min.js"></script>
-    <script type="module" src="/app.js"></script>
+    <script type="module" src="/restaurant-choice-service/app.js"></script>
 </head>
 <body>
 <div id="main-content" class="container">
@@ -16,6 +16,7 @@
             <h2>Welcome to Restaurant Choice Service</h2>
             <br/>
             <br/>
+
             <div class="row">
                 <div class="col-md-6">
                     <form class="form-inline">
@@ -39,12 +40,19 @@
             <br/>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <button id = "createRoomButton" class="btn btn-default">Create Room</button>
-                    <button id = "joinRoomButton" class="btn btn-default">Join Room</button>
+                    <button id = "createRoomButton" class="btn btn-default">Create Session</button>
+                    <button id = "joinRoomButton" class="btn btn-default">Join Session</button>
                 </div>
             </div>
-
-
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="note">
+                    Tip ! If you want to create a new session provide the session name and click create session.
+                    If you want to join an existing session provide the session id and click join session.
+                </label>
+            </div>
         </div>
     </div>
 </div>

@@ -11,6 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Service layer logics impl specs to serve user operations
+ *
+ * @author Madushan
+ */
 @RequiredArgsConstructor
 @Slf4j
 @Service
@@ -20,6 +25,10 @@ public class UserServiceImpl implements UserService {
 
     private final UserDaoTransformer userDaoTransformer;
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Transactional
     @Override
     public UserData registerUser(RegisterUserRequest registerUserRequest) {
@@ -28,6 +37,12 @@ public class UserServiceImpl implements UserService {
         return buildUserData(userRepository.save(user));
     }
 
+    /**
+     * Builds User Data to be sent over other layers
+     *
+     * @param user user entity
+     * @return User Data
+     */
     private UserData buildUserData(User user) {
         return UserData.builder()
                 .userId(user.getId())
