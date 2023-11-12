@@ -1,0 +1,223 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080/restaurant-choice-service
+    description: Generated server url
+tags:
+  - name: User REST Controller
+    description: This Document specifies REST Endpoints for User Resource
+  - name: Session REST Controller
+    description: This Document specifies REST Endpoints for Session Resource
+paths:
+  /users:
+    post:
+      tags:
+        - User REST Controller
+      summary: Register user
+      operationId: registerUser
+      requestBody:
+        description: Request payload to register user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request when invalid inputs provided
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /sessions:
+    post:
+      tags:
+        - Session REST Controller
+      summary: Create session
+      operationId: createSession
+      requestBody:
+        description: Create session request payload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '400':
+          description: Bad Request when invalid inputs provided
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found when related session owner unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /sessions/{id}:
+    get:
+      tags:
+        - Session REST Controller
+      summary: Get session by Id
+      operationId: getSession
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found when related session unavailable
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type: string
+    RegisterUserRequest:
+      required:
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+    UserResponse:
+      required:
+        - userId
+        - username
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        username:
+          type: string
+        restaurantChoice:
+          type: string
+    CreateSessionRequest:
+      required:
+        - sessionName
+        - sessionOwnerId
+      type: object
+      properties:
+        sessionName:
+          type: string
+        sessionOwnerId:
+          type: integer
+          format: int64
+    SessionResponse:
+      required:
+        - sessionId
+      type: object
+      properties:
+        sessionId:
+          type: integer
+          format: int64
+        sessionName:
+          type: string
+        users:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
+        restaurantChoice:
+          type: string
+        ended:
+          type: boolean
