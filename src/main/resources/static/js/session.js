@@ -24,7 +24,7 @@ stompClient.onStompError = (frame) => {
 
 window.onload = function() {
  stompClient.activate();
-  $("#close").prop("disabled", !(sessionOwner.toLowerCase() === 'true'));
+ $("#close").prop("disabled", !(sessionOwner.toLowerCase() === 'true'));
 };
 
 async function joinSession() {

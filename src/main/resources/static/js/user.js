@@ -3,7 +3,7 @@
 
    let userId = user.userId;
    const session = await makePostCall('http://localhost:8080/restaurant-choice-service/sessions', {sessionName: $("#session").val(),
-                                                                                sessionOwnerId: userId});
+                                                                                userId: userId});
   let sessionOwner = true;
   let sessionId = session.sessionId;
   let sessionName = session.sessionName;
@@ -17,8 +17,8 @@
 }
 
  export async function joinSessionRoom() {
-   const user = await makePostCall('http://localhost:8080/restaurant-choice-service/users', {username: $("#name").val()});
-   let userId = user.userId;
+  const user = await makePostCall('http://localhost:8080/restaurant-choice-service/users', {username: $("#name").val()});
+  let userId = user.userId;
   let sessionId = $("#session").val();
   $.session.set('sessionOwner', false);
   $.session.set('userId', userId);

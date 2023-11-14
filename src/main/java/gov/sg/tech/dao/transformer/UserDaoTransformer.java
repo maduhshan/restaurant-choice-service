@@ -15,7 +15,7 @@ public class UserDaoTransformer {
      * Transforms data in to user entity
      *
      * @param username name of the user
-     * @param isOwner is user is session owner
+     * @param isOwner  is user is session owner
      * @return transformed user entity
      */
     public User transformToUser(String username, boolean isOwner) {

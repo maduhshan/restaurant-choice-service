@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 public class DatabaseConfiguration {
 
     @Bean
-    public SpringLiquibase liquibase( DataSource dataSource) {
+    public SpringLiquibase liquibase(DataSource dataSource) {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setChangeLog("classpath:db/changelog/db.changelog-master.xml");
         liquibase.setDataSource(dataSource);

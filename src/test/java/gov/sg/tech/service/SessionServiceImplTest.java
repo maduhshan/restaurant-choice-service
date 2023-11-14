@@ -75,7 +75,7 @@ class SessionServiceImplTest {
 
         // when
         final var exception = assertThrows(ResourceNotFoundException.class,
-                () ->sessionService.getSessionById(1234L));
+                () -> sessionService.getSessionById(1234L));
 
         // then
         assertEquals("Session not found", exception.getMessage());
@@ -313,7 +313,7 @@ class SessionServiceImplTest {
     private CreateSessionRequest getStubCreateSessionReq() {
         return CreateSessionRequest.builder()
                 .sessionName("Monday Lunch")
-                .sessionOwnerId(4L)
+                .userId(4L)
                 .build();
     }
 

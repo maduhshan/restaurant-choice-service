@@ -37,7 +37,7 @@ class SessionDaoTransformerTest {
     private CreateSessionRequest getStubCreateSessionReq() {
         return CreateSessionRequest.builder()
                 .sessionName("Lunch")
-                .sessionOwnerId(4L)
+                .userId(4L)
                 .build();
     }
 

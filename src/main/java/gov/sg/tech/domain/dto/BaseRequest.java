@@ -1,19 +1,19 @@
-package gov.sg.tech.domain.pojo;
+package gov.sg.tech.domain.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@EqualsAndHashCode(callSuper = true)
+import java.io.Serializable;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @SuperBuilder
-public class UserData extends BaseData {
+public abstract class BaseRequest implements Serializable {
 
+    @NotNull
     private Long userId;
-
-    private String username;
 }

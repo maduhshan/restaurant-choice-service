@@ -32,7 +32,7 @@ public interface SessionService {
     /**
      * Join user to an existing session
      *
-     * @param id session id
+     * @param id                 session id
      * @param joinSessionRequest join session request
      * @return SessionData
      */
@@ -41,7 +41,7 @@ public interface SessionService {
     /**
      * Submit a restaurant choice to a active session
      *
-     * @param id session id
+     * @param id            session id
      * @param choiceRequest request contains choce details
      * @return SessionData
      */
@@ -50,7 +50,7 @@ public interface SessionService {
     /**
      * Manage a session such as ending a given session
      *
-     * @param id seesion id
+     * @param id                    seesion id
      * @param sessionRequestMessage request payload which contains the session management operation
      * @return SessionData
      */

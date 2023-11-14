@@ -22,7 +22,7 @@ public class Session {
 
     private boolean ended;
 
-    @OneToMany(mappedBy ="session", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<User> users;
 
     @Column(name = "selectedRestaurant")

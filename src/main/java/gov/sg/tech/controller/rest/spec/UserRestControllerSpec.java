@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
  * @author Madushan
  */
 @Tag(name = "User REST Controller",
-     description = "This Document specifies REST Endpoints for User Resource")
+        description = "This Document specifies REST Endpoints for User Resource")
 public interface UserRestControllerSpec {
 
     @Operation(summary = "Register user")

@@ -1,26 +1,25 @@
 package gov.sg.tech.domain.pojo;
 
-import gov.sg.tech.domain.dto.UserResponse;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
-public class SessionData {
+@SuperBuilder
+public class SessionData extends BaseData {
 
     private Long sessionId;
 
     private String sessionName;
 
     private Set<UserData> users;
-
-    private String restaurantChoice;
 
     private boolean ended;
 }

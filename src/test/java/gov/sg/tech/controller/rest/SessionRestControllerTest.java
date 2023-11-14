@@ -117,7 +117,7 @@ class SessionRestControllerTest {
     private CreateSessionRequest getStubCreateSessionReq() {
         return CreateSessionRequest.builder()
                 .sessionName("Monday Lunch")
-                .sessionOwnerId(4L)
+                .userId(4L)
                 .build();
     }
 

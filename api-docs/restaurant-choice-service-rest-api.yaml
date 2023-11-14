@@ -194,14 +194,14 @@ components:
     CreateSessionRequest:
       required:
         - sessionName
-        - sessionOwnerId
+        - userId
       type: object
       properties:
-        sessionName:
-          type: string
-        sessionOwnerId:
+        userId:
           type: integer
           format: int64
+        sessionName:
+          type: string
     SessionResponse:
       required:
         - sessionId

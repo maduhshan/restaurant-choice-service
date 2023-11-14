@@ -1,21 +1,18 @@
 package gov.sg.tech.domain.dto;
 
-import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Data
-public class ManageSessionRequest {
-
-    @NotNull
-    private Long userId;
+public class ManageSessionRequest extends BaseRequest {
 
     @NotBlank
     private String operationType;

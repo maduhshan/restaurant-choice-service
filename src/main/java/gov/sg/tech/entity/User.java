@@ -14,7 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 @Table(name = "session_user")
-public class User{
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,6 @@ public class User{
     private boolean isOwner;
 
     @ManyToOne
-    @JoinColumn(name="session_id", nullable=true)
+    @JoinColumn(name = "session_id")
     private Session session;
 }

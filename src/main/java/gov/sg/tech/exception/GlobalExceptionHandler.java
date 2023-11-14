@@ -24,9 +24,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleInternalServerError(Exception e) {
         return new ResponseEntity<>(
                 ErrorResponse.builder()
-                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .message(e.getMessage())
-                .build(), HttpStatus.INTERNAL_SERVER_ERROR
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .message(e.getMessage())
+                        .build(), HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 

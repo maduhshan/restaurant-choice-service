@@ -19,7 +19,7 @@ public enum ManageSessionOperationType {
         return value;
     }
 
-    public static ManageSessionOperationType findByName(String name){
+    public static ManageSessionOperationType findByName(String name) {
         return Arrays.stream(ManageSessionOperationType.values())
                 .filter(value -> value.getValue().equals(name))
                 .findAny()

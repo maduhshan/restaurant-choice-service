@@ -3,7 +3,8 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <include file="classpath:db/changelog/001-2023-11-09-create-session-table.sql" relativeToChangelogFile="false"/>
-    <include file="classpath:db/changelog/002-2023-11-10-create-session_user-table.sql" relativeToChangelogFile="false"/>
+    <include file="classpath:db/changelog/002-2023-11-10-create-session_user-table.sql"
+             relativeToChangelogFile="false"/>
 
 
 </databaseChangeLog>
